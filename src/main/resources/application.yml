@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: task-management
+  datasource:
+    password: password
+    url: jdbc:postgresql://localhost:5434/learning-management-system
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: true
+  security:
+    secret: bXMxNG1zMTRtczE0bXMxNG1zMTRtczE0bXMxNG1zMTRtczE0bXMxNG1zMTRtczE0bXMxNG1zMTRtczE0bXMxNA==
+    token:
+      expirationTime: 60
+
+
+
