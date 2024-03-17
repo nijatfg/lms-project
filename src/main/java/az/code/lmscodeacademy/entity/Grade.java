@@ -20,7 +20,7 @@ public class Grade {
     private int score;
     private String feedback;
 
-    @ManyToOne
-    @JoinColumn(name = "submission_id")
-    private Submission submission;//TODO onetoone
+    @OneToOne
+    @JoinColumn(name = "submission_id", unique = true)
+    private Submission submission;
 }

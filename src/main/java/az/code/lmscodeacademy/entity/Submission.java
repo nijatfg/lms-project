@@ -27,4 +27,9 @@ public class Submission {
     @JsonIgnore
     @ToString.Exclude
     private Assignment assignment;
+
+    @OneToOne(mappedBy = "submission")
+    @JsonIgnore
+    @ToString.Exclude
+    private Grade grade;
 }

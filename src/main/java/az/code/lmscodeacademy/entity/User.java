@@ -35,6 +35,10 @@ public class User {
     @ToString.Exclude
     private Group group;
 
-    @OneToMany(mappedBy = "user")
-    private List<Assignment> assignments = new ArrayList<>();//TODO manytomany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_assignment",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "assignment_id", referencedColumnName = "id")})
+    private List<Assignment> assignments;
 }

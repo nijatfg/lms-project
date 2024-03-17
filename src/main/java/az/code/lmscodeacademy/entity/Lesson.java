@@ -7,30 +7,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "participations")
-public class Participation {
+@Table(name = "assignments")
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private LocalDate lessonDate;
-    private boolean attendance;
-
-    @Column(name = "participation_data", columnDefinition = "TEXT")
-    private String participationData;
+    private String title;
+    private String description;
+    private LocalDate date;
+    private int duration;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "lesson_id")
-    private Lesson lesson;
-
+    @OneToMany(mappedBy = "lesson")
+    private List<Participation> participations = new ArrayList<>();
 }
