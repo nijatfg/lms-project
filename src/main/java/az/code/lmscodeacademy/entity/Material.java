@@ -17,6 +17,8 @@ public class Material {
 
     private String title;
     private String type;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne

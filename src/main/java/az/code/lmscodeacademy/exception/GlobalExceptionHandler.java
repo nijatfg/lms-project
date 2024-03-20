@@ -66,6 +66,30 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
+    @ExceptionHandler(CourseNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleCourseNotFoundException(CourseNotFoundException ex,
+                                                                        WebRequest req) {
+        ex.printStackTrace();
+
+        return ResponseEntity.status(404).body(ErrorResponseDto.builder()
+                .status(404)
+                .title("Exception")
+                .details("Course not found")
+                .build());
+    }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleGroupNotFoundException(GroupNotFoundException ex,
+                                                                          WebRequest req) {
+        ex.printStackTrace();
+
+        return ResponseEntity.status(404).body(ErrorResponseDto.builder()
+                .status(404)
+                .title("Exception")
+                .details("Group not found")
+                .build());
+    }
+
 //    @ExceptionHandler(MethodArgumentNotValidException.class)
 //    public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex,
 //                                                                                  WebRequest req) {

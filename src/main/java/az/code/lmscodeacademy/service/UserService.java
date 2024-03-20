@@ -100,8 +100,6 @@ public class UserService {
         } else {
             return ResponseEntity.ok("Confirmation token is invalid");
         }
-
-
     }
 
     private String getConfirmationToken() {
