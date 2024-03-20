@@ -25,5 +25,5 @@ public class Assignment {
     @ManyToOne
     @JsonIgnore
     @ToString.Exclude
-    Group group;
+    private Group group;
 }

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: task-management
+    name: learning-management-system
   datasource:
     password: password
     url: jdbc:postgresql://localhost:5434/learning-management-system
