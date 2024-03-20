@@ -14,5 +14,24 @@ spring:
     secret: bXMxNG1zMTRtczE0bXMxNG1zMTRtczE0bXMxNG1zMTRtczE0bXMxNG1zMTRtczE0bXMxNG1zMTRtczE0bXMxNA==
     token:
       expirationTime: 60
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
 
 
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAYS2NWGP6HSXZTIHG
+      secret-key: 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
+    region:
+      static: eu-north-1
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: lmsstorages
