@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.entity.group;
 
+import az.code.lmscodeacademy.entity.lesson.Lesson;
 import az.code.lmscodeacademy.entity.material.Material;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.entity.assignment.Assignment;
@@ -37,4 +38,7 @@ public class Group {
 
     @OneToMany(mappedBy = "group")
     private List<Assignment> assignments;
+
+    @OneToMany(mappedBy = "group")
+    private List<Lesson> lessons;
 }
