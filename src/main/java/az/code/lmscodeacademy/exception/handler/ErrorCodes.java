@@ -6,5 +6,6 @@ public enum ErrorCodes {
     USER_NOT_FOUND,
     INVALID_PASSWORD,
     COURSE_NOT_FOUND,
-    GROUP_NOT_FOUND
+    GROUP_NOT_FOUND,
+    LESSON_NOT_FOUND
 }

@@ -1,6 +1,7 @@
 package az.code.lmscodeacademy.exception.handler;
 
 import az.code.lmscodeacademy.exception.group.GroupNotFoundException;
+import az.code.lmscodeacademy.exception.lesson.LessonNotFoundException;
 import az.code.lmscodeacademy.exception.password.InvalidPasswordException;
 import az.code.lmscodeacademy.exception.users.UserNameExistException;
 import az.code.lmscodeacademy.exception.users.UserNotFoundException;
@@ -66,6 +67,18 @@ public class GlobalExceptionHandler {
                 .status(404)
                 .title("Exception")
                 .details("User not found")
+                .build());
+    }
+
+    @ExceptionHandler(LessonNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleLessonNotFoundException(LessonNotFoundException ex,
+                                                                        WebRequest req) {
+        ex.printStackTrace();
+
+        return ResponseEntity.status(404).body(ErrorResponseDto.builder()
+                .status(404)
+                .title("Exception")
+                .details("Lesson not found")
                 .build());
     }
 

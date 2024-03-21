@@ -1,12 +1,11 @@
 package az.code.lmscodeacademy.entity.lesson;
 
+import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.participation.Participation;
 import az.code.lmscodeacademy.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,4 +31,9 @@ public class Lesson {
 
     @OneToMany(mappedBy = "lesson")
     private List<Participation> participations = new ArrayList<>();
+
+    @ManyToOne
+    @JsonIgnore
+    @ToString.Exclude
+    private Group group;
 }
