@@ -1,37 +1,27 @@
 package az.code.lmscodeacademy.controller.user;
 
-import az.code.lmscodeacademy.dto.request.login.LoginRequest;
-import az.code.lmscodeacademy.dto.request.signup.SignUpRequest;
-import az.code.lmscodeacademy.dto.response.jwt.Response;
+import az.code.lmscodeacademy.dto.request.user.UserRequest;
+import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import az.code.lmscodeacademy.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin
 public class UserController {
 
     private final UserService userService;
-
-    @PostMapping("/signup")
-    public ResponseEntity<Response> registerUser(@RequestBody SignUpRequest signUpRequest) {
-
-        return userService.registerUser(signUpRequest);
-
+    @PostMapping
+    public ResponseEntity<UserResponse> save(@RequestBody UserRequest userRequest) {
+        return new ResponseEntity<>(userService.createUser(userRequest), HttpStatus.CREATED);
     }
 
-    @PostMapping("/signin")
-    public ResponseEntity<Response> login(@RequestBody LoginRequest loginRequest) {
-        return userService.loginUser(loginRequest);
-    }
-
-    @GetMapping("/confirmation")
-    public ResponseEntity<?> confirmation(@RequestParam("confirmationToken") String confirmationToken) {
-        return userService.confirmation(confirmationToken);
-    }
 }
