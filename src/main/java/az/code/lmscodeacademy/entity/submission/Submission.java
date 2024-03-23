@@ -21,6 +21,8 @@ public class Submission {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    private String link;
+
     @ManyToOne
     @JsonIgnore
     @ToString.Exclude

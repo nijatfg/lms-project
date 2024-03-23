@@ -6,7 +6,6 @@ import lombok.Data;
 public class MaterialRequest {
     private String title;
     private String type;
-
     private String content;
     private Long groupId;
 }

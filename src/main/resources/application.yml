@@ -33,5 +33,10 @@ cloud:
       auto: false
 
 application:
-  bucket:
-    name: lmsstorages
+  material:
+    bucket:
+      name: materiallmsbucket
+  submission:
+    bucket:
+      name: submissionlmsbucket
+

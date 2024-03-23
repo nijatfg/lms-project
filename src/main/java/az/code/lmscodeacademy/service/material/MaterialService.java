@@ -27,7 +27,7 @@ import java.io.IOException;
 @Slf4j
 public class MaterialService {
 
-    @Value("${application.bucket.name}")
+    @Value("${application.material.bucket.name}")
     private String bucketName;
 
     private final AmazonS3 s3Client;
