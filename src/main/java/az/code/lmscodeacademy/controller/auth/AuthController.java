@@ -1,8 +1,10 @@
 package az.code.lmscodeacademy.controller.auth;
 
 import az.code.lmscodeacademy.dto.request.login.LoginRequest;
+import az.code.lmscodeacademy.dto.request.password.ChangePasswordRequest;
 import az.code.lmscodeacademy.dto.request.signup.SignUpRequest;
 import az.code.lmscodeacademy.dto.response.jwt.Response;
+import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import az.code.lmscodeacademy.service.auth.AuthService;
 import az.code.lmscodeacademy.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,6 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<Response> registerUser(@RequestBody SignUpRequest signUpRequest) {
-
         return authService.registerUser(signUpRequest);
 
     }
@@ -29,6 +30,12 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<Response> login(@RequestBody LoginRequest loginRequest) {
         return authService.loginUser(loginRequest);
+    }
+
+    @PostMapping("/changePassword/users/{userId}")
+    public ResponseEntity<UserResponse> changePassword(@PathVariable Long userId,
+                                                       @RequestBody ChangePasswordRequest request) {
+        return authService.changePassword(userId, request);
     }
 
     @GetMapping("/confirmation")

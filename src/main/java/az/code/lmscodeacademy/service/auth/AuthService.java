@@ -1,8 +1,10 @@
 package az.code.lmscodeacademy.service.auth;
 
 import az.code.lmscodeacademy.dto.request.login.LoginRequest;
+import az.code.lmscodeacademy.dto.request.password.ChangePasswordRequest;
 import az.code.lmscodeacademy.dto.request.signup.SignUpRequest;
 import az.code.lmscodeacademy.dto.response.jwt.Response;
+import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import az.code.lmscodeacademy.entity.authority.Authority;
 import az.code.lmscodeacademy.entity.enums.UserAuthority;
 import az.code.lmscodeacademy.entity.user.User;
@@ -35,6 +37,7 @@ public class AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final JwtService jwtService;
+
     public ResponseEntity<Response> registerUser(SignUpRequest signUpRequest) {
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -91,6 +94,28 @@ public class AuthService {
                 .builder()
                 .jwt(jwtService.issueToken(user))
                 .build());
+    }
+
+    public ResponseEntity<UserResponse> changePassword(Long userId, ChangePasswordRequest changePasswordRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ErrorCodes.USER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())) {
+            throw new InvalidPasswordException(ErrorCodes.INVALID_PASSWORD);
+        }
+
+        String encodedNewPassword = passwordEncoder.encode(changePasswordRequest.getNewPassword());
+        user.setPassword(encodedNewPassword);
+        userRepository.save(user);
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setAuthorities(user.getAuthorities());
+        userResponse.setGroup(userResponse.getGroup());
+
+        return ResponseEntity.ok(userResponse);
     }
 
 
