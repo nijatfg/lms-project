@@ -9,5 +9,4 @@ public class UserRequest {
     private String email;
     private String password;
     private UserAuthority authority;
-    private Long groupId;
 }

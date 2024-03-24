@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -29,7 +30,7 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final GroupRepository groupRepository;
 
-    public UserResponse createUser(UserRequest userRequest) {
+    public UserResponse createUser(UserRequest userRequest, String groupName) {
         if (userRepository.existsByEmail(userRequest.getEmail())) {
             throw new EmailExistException(ErrorCodes.EMAIL_ALREADY_EXIST);
         }
@@ -45,7 +46,7 @@ public class UserService {
                     return authorityRepository.save(newAuthority);
                 });
 
-        Group group = groupRepository.findById(userRequest.getGroupId())
+        Group group = groupRepository.findByName(groupName)
                 .orElseThrow(() -> new GroupNotFoundException(ErrorCodes.GROUP_NOT_FOUND));
 
         User user = User.builder()
@@ -59,5 +60,14 @@ public class UserService {
         userRepository.save(user);
 
         return modelMapper.map(user, UserResponse.class);
+    }
+
+
+    public List<UserResponse> findAllUsers() {
+        return userRepository
+                .findAll()
+                .stream()
+                .map(user -> modelMapper.map(user, UserResponse.class))
+                .collect(Collectors.toList());
     }
 }

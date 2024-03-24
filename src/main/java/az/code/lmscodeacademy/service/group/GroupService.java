@@ -39,8 +39,8 @@ public class GroupService {
         return modelMapper.map(group, GroupResponse.class);
     }
 
-    public GroupResponse save(GroupRequest request, Long courseId) {
-        Course course = courseRepository.findById(courseId)
+    public GroupResponse save(GroupRequest request, String courseName) {
+        Course course = courseRepository.findByName(courseName)
                 .orElseThrow(() -> new CourseNotFoundException(ErrorCodes.COURSE_NOT_FOUND));
 
         Group group = modelMapper.map(request, Group.class);
@@ -48,6 +48,7 @@ public class GroupService {
 
         return modelMapper.map(groupRepository.save(group), GroupResponse.class);
     }
+
 
     public GroupResponse updateGroup(Long groupId, GroupRequest groupRequest) {
         Group existingGroup = groupRepository.findById(groupId)
