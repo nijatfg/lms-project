@@ -4,6 +4,7 @@ import az.code.lmscodeacademy.exception.assignment.AssignmentNotFoundException;
 import az.code.lmscodeacademy.exception.group.GroupNotFoundException;
 import az.code.lmscodeacademy.exception.lesson.LessonNotFoundException;
 import az.code.lmscodeacademy.exception.password.InvalidPasswordException;
+import az.code.lmscodeacademy.exception.submission.SubmissionNotFoundException;
 import az.code.lmscodeacademy.exception.users.UserNameExistException;
 import az.code.lmscodeacademy.exception.users.UserNotFoundException;
 import az.code.lmscodeacademy.exception.course.CourseNotFoundException;
@@ -68,6 +69,18 @@ public class GlobalExceptionHandler {
                 .status(404)
                 .title("Exception")
                 .details("User not found")
+                .build());
+    }
+
+    @ExceptionHandler(SubmissionNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleSubmissionNotFoundException(SubmissionNotFoundException ex,
+                                                                        WebRequest req) {
+        ex.printStackTrace();
+
+        return ResponseEntity.status(404).body(ErrorResponseDto.builder()
+                .status(404)
+                .title("Exception")
+                .details("Submission not found")
                 .build());
     }
 
