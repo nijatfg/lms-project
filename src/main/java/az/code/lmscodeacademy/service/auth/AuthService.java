@@ -93,6 +93,7 @@ public class AuthService {
         return ResponseEntity.ok(Response
                 .builder()
                 .jwt(jwtService.issueToken(user))
+                .authorities(user.getAuthorities())
                 .build());
     }
 

@@ -26,8 +26,8 @@ public class Lesson {
     private LocalDate date;
     private int duration;
 
-    @ManyToOne
-    private User user;
+//    @ManyToOne
+//    private User user;
 
     @OneToMany(mappedBy = "lesson")
     private List<Participation> participations = new ArrayList<>();
