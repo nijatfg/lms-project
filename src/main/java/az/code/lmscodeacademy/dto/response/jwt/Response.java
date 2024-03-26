@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Response {
-
+    private Long id;
     String jwt;
     private List<Authority> authorities;
 }

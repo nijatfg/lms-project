@@ -21,7 +21,7 @@ public class Participation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate lessonDate;
+//    private LocalDate lessonDate;
     private boolean attendance;
 
     @Column(name = "participation_data", columnDefinition = "TEXT")
