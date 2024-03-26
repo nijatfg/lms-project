@@ -57,12 +57,14 @@ public class ParticipationService {
                 .orElseThrow(() -> new UserNotFoundException(ErrorCodes.USER_NOT_FOUND));
 
         List<Participation> participationList;
-        if (currentUser.getAuthorities().contains(UserAuthority.STUDENT)) {
 
-            participationList = participationRepository.findByUser(currentUser);
-        } else {
-            participationList = participationRepository.findAll();
-        }
+        participationList = participationRepository.findByUser(currentUser);
+//        if (currentUser.getAuthorities().contains(UserAuthority.STUDENT)) {
+//
+//            participationList = participationRepository.findByUser(currentUser);
+//        } else {
+//            participationList = participationRepository.findAll();
+//        }
 
         return participationList.stream()
                 .map(participation -> modelMapper.map(participation, ParticipationResponse.class))
