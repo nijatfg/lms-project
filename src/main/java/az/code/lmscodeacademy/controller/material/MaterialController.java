@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/materials")
@@ -18,6 +19,13 @@ import java.io.IOException;
 public class MaterialController {
 
     private final MaterialService materialService;
+
+
+    @GetMapping
+    public ResponseEntity<List<MaterialResponse>> getAllMaterials() {
+        List<MaterialResponse> materials = materialService.getAllMaterials();
+        return ResponseEntity.ok(materials);
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<MaterialResponse> uploadMaterial(@ModelAttribute MaterialRequest materialRequest,
