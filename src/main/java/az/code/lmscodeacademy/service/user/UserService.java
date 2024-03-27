@@ -70,4 +70,12 @@ public class UserService {
                 .map(user -> modelMapper.map(user, UserResponse.class))
                 .collect(Collectors.toList());
     }
+
+    public List<UserResponse> findByGroupId(Long groupId) {
+        List<User> users = userRepository.findByGroupId(groupId);
+
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserResponse.class))
+                .collect(Collectors.toList());
+    }
 }

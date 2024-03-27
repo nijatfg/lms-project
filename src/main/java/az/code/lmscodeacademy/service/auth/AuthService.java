@@ -3,10 +3,12 @@ package az.code.lmscodeacademy.service.auth;
 import az.code.lmscodeacademy.dto.request.login.LoginRequest;
 import az.code.lmscodeacademy.dto.request.password.ChangePasswordRequest;
 import az.code.lmscodeacademy.dto.request.signup.SignUpRequest;
+import az.code.lmscodeacademy.dto.response.group.GroupResponse;
 import az.code.lmscodeacademy.dto.response.jwt.Response;
 import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import az.code.lmscodeacademy.entity.authority.Authority;
 import az.code.lmscodeacademy.entity.enums.UserAuthority;
+import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.exception.email.EmailExistException;
 import az.code.lmscodeacademy.exception.handler.ErrorCodes;
@@ -82,7 +84,6 @@ public class AuthService {
     }
 
     public ResponseEntity<Response> loginUser(LoginRequest loginRequest) {
-
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(ErrorCodes.USER_NOT_FOUND));
 
@@ -90,11 +91,17 @@ public class AuthService {
             throw new InvalidPasswordException(ErrorCodes.INVALID_PASSWORD);
         }
 
-        return ResponseEntity.ok(Response
-                .builder()
+        Group group = user.getGroup(); // Assuming there's a method to get the user's group
+        GroupResponse groupResponse = GroupResponse.builder()
+                .id(group.getId())
+                .name(group.getName())
+                .build();
+
+        return ResponseEntity.ok(Response.builder()
                 .jwt(jwtService.issueToken(user))
                 .id(user.getId())
                 .authorities(user.getAuthorities())
+                .group(groupResponse)
                 .build());
     }
 

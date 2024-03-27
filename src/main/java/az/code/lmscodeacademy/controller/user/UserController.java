@@ -31,4 +31,9 @@ public class UserController {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
+    @GetMapping("/groups/{groupId}")
+    public ResponseEntity<List<UserResponse>> findAllByGroupId(@PathVariable Long groupId) {
+        return new ResponseEntity<>(userService.findByGroupId(groupId), HttpStatus.OK);
+    }
+
 }
