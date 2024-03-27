@@ -43,4 +43,12 @@ public class AssignmentService {
                 .collect(Collectors.toList());
     }
 
+    public List<AssignmentResponse> findAssignmentsByGroup(Long groupId) {
+        List<Assignment> assignments = assignmentRepository.findByGroupId(groupId);
+
+        return assignments.stream()
+                .map(assignment -> modelMapper.map(assignment, AssignmentResponse.class))
+                .collect(Collectors.toList());
+    }
+
 }

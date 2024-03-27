@@ -29,4 +29,9 @@ public class AssignmentController {
         return new ResponseEntity<>(assignmentService.findAll(), HttpStatus.OK);
     }
 
+
+    @GetMapping("/groups/{groupId}")
+    public ResponseEntity<List<AssignmentResponse>> findAssignmentsByGroup(@PathVariable Long groupId) {
+        return new ResponseEntity<>(assignmentService.findAssignmentsByGroup(groupId), HttpStatus.OK);
+    }
 }

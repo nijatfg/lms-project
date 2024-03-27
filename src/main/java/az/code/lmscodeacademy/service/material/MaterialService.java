@@ -2,8 +2,10 @@ package az.code.lmscodeacademy.service.material;
 
 import az.code.lmscodeacademy.dto.request.material.MaterialRequest;
 import az.code.lmscodeacademy.dto.response.material.MaterialResponse;
+import az.code.lmscodeacademy.dto.response.participation.ParticipationResponse;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.material.Material;
+import az.code.lmscodeacademy.entity.participation.Participation;
 import az.code.lmscodeacademy.repository.group.GroupRepository;
 import az.code.lmscodeacademy.repository.material.MaterialRepository;
 import com.amazonaws.services.s3.AmazonS3;
@@ -87,5 +89,12 @@ public class MaterialService {
             fos.write(file.getBytes());
         }
         return convertedFile;
+    }
+    public List<MaterialResponse> findMaterialsByGroup(Long groupId) {
+        List<Material> materials = materialRepository.findByGroupId(groupId);
+
+        return materials.stream()
+                .map(material -> modelMapper.map(material, MaterialResponse.class))
+                .collect(Collectors.toList());
     }
 }

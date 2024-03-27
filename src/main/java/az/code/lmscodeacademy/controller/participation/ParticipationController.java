@@ -21,11 +21,12 @@ public class ParticipationController {
 
     private final ParticipationService participationService;
 
-    @PostMapping("/markAttendance/{lessonId}/{userId}")
+    @PostMapping("/markAttendance/{lessonId}/{userId}/{groupId}")
     public ResponseEntity<ParticipationResponse> markAttendance(@RequestBody ParticipationRequest request,
                                                                 @PathVariable Long lessonId,
-                                                                @PathVariable Long userId) {
-        return new ResponseEntity<>(participationService.markAttendance(request, lessonId, userId), HttpStatus.CREATED);
+                                                                @PathVariable Long userId,
+                                                                @PathVariable Long groupId) {
+        return new ResponseEntity<>(participationService.markAttendance(request, lessonId, userId, groupId), HttpStatus.CREATED);
     }
 
     @GetMapping("/participationRecords/{userId}")
@@ -35,6 +36,11 @@ public class ParticipationController {
 
     @GetMapping("/calculatePercentage/{userId}")
     public ResponseEntity<Double> calculateParticipationPercentage(@PathVariable Long userId) {
-        return new ResponseEntity<>(participationService.calculateParticipationPercentage(userId),HttpStatus.OK);
+        return new ResponseEntity<>(participationService.calculateParticipationPercentage(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/groups/{groupId}")
+    public ResponseEntity<List<ParticipationResponse>> getParticipationRecordsByGroup(@PathVariable Long groupId) {
+        return new ResponseEntity<>(participationService.findParticipationRecordsByGroup(groupId), HttpStatus.OK);
     }
 }

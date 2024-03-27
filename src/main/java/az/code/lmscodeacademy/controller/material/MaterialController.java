@@ -54,4 +54,9 @@ public class MaterialController {
     public ResponseEntity<String> deleteFile(@PathVariable String fileName) {
         return new ResponseEntity<>(materialService.deleteFile(fileName), HttpStatus.OK);
     }
+
+    @GetMapping("/groups/{groupId}")
+    public ResponseEntity<List<MaterialResponse>> findMaterialsByGroup(@PathVariable Long groupId) {
+        return new ResponseEntity<>(materialService.findMaterialsByGroup(groupId), HttpStatus.OK);
+    }
 }

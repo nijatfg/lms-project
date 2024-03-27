@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.dto.response.jwt;
 
+import az.code.lmscodeacademy.dto.response.group.GroupResponse;
 import az.code.lmscodeacademy.entity.authority.Authority;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -15,4 +16,5 @@ public class Response {
     private Long id;
     String jwt;
     private List<Authority> authorities;
+    private GroupResponse group;
 }

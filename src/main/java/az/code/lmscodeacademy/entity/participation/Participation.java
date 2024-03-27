@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.entity.participation;
 
+import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.entity.lesson.Lesson;
 import jakarta.persistence.*;
@@ -21,7 +22,7 @@ public class Participation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    private LocalDate lessonDate;
+    //    private LocalDate lessonDate;
     private boolean attendance;
 
     @Column(name = "participation_data", columnDefinition = "TEXT")
@@ -34,5 +35,10 @@ public class Participation {
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
+
+    @ManyToOne
+    @JoinColumn(name = "participation_id")
+    private Group group;
+
 
 }
