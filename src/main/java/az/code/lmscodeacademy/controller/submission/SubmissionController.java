@@ -4,6 +4,7 @@ import az.code.lmscodeacademy.dto.request.sumbission.SubmissionRequest;
 import az.code.lmscodeacademy.dto.response.submission.SubmissionResponse;
 import az.code.lmscodeacademy.service.submission.SubmissionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,20 @@ public class SubmissionController {
         } else {
             return new ResponseEntity<>(submissionService.submitAssignmentWithoutFile(assignmentId, userId, request), HttpStatus.CREATED);
         }
+    }
+
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) {
+        byte[] data = submissionService.downloadFile(fileName);
+
+        ByteArrayResource resource = new ByteArrayResource(data);
+
+        return ResponseEntity.
+                ok()
+                .contentLength(data.length)
+                .header("Content-type", "application/octet-stream")
+                .header("Content-disposition", "attachment; filename=\"" + fileName + "\"")
+                .body(resource);
     }
 
 
