@@ -91,11 +91,14 @@ public class AuthService {
             throw new InvalidPasswordException(ErrorCodes.INVALID_PASSWORD);
         }
 
-        Group group = user.getGroup(); // Assuming there's a method to get the user's group
-        GroupResponse groupResponse = GroupResponse.builder()
-                .id(group.getId())
-                .name(group.getName())
-                .build();
+        GroupResponse groupResponse = null;
+        Group group = user.getGroup();
+        if (group != null) {
+            groupResponse = GroupResponse.builder()
+                    .id(group.getId())
+                    .name(group.getName())
+                    .build();
+        }
 
         return ResponseEntity.ok(Response.builder()
                 .jwt(jwtService.issueToken(user))
