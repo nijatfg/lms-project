@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.entity.submission;
 
+import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.entity.assignment.Assignment;
 import az.code.lmscodeacademy.entity.grade.Grade;
@@ -37,4 +38,8 @@ public class Submission {
     @JsonIgnore
     @ToString.Exclude
     private Grade grade;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    Group group;
 }

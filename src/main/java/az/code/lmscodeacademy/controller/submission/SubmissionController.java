@@ -20,17 +20,18 @@ public class SubmissionController {
 
     private final SubmissionService submissionService;
 
-    @PostMapping("/submit/{assignmentId}/{userId}")
+    @PostMapping("/submit/{assignmentId}/{userId}/{groupId}")
     public ResponseEntity<SubmissionResponse> submitAssignment(
             @ModelAttribute SubmissionRequest request,
             @PathVariable Long assignmentId,
             @PathVariable Long userId,
+            @PathVariable Long groupId,
             @RequestParam(value = "file", required = false) MultipartFile file
     ) throws IOException {
         if (file != null) {
-            return new ResponseEntity<>(submissionService.submitAssignmentWithFile(request, assignmentId, userId, file), HttpStatus.CREATED);
+            return new ResponseEntity<>(submissionService.submitAssignmentWithFile(request, assignmentId, userId, file, groupId), HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(submissionService.submitAssignmentWithoutFile(assignmentId, userId, request), HttpStatus.CREATED);
+            return new ResponseEntity<>(submissionService.submitAssignmentWithoutFile(assignmentId, userId, request, groupId), HttpStatus.CREATED);
         }
     }
 
@@ -49,8 +50,9 @@ public class SubmissionController {
     }
 
 
-    @GetMapping("/assignment/{assignmentId}/submissions")
-    public ResponseEntity<List<SubmissionResponse>> getAllSubmissionsByAssignmentId(@PathVariable Long assignmentId) {
-        return new ResponseEntity<>(submissionService.getAllSubmissionsByAssignmentId(assignmentId), HttpStatus.OK);
+    @GetMapping("/assignment/{assignmentId}/groups/{groupId}")
+    public ResponseEntity<List<SubmissionResponse>> getAllSubmissionsByAssignmentId(@PathVariable Long assignmentId,
+                                                                                    @PathVariable Long groupId) {
+        return new ResponseEntity<>(submissionService.getAllSubmissionsByAssignmentIdAndGroupId(assignmentId, groupId), HttpStatus.OK);
     }
 }

@@ -37,7 +37,7 @@ public class Participation {
     private Lesson lesson;
 
     @ManyToOne
-    @JoinColumn(name = "participation_id")
+    @JoinColumn(name = "group_id")
     private Group group;
 
 

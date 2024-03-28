@@ -3,6 +3,7 @@ package az.code.lmscodeacademy.entity.group;
 import az.code.lmscodeacademy.entity.lesson.Lesson;
 import az.code.lmscodeacademy.entity.material.Material;
 import az.code.lmscodeacademy.entity.participation.Participation;
+import az.code.lmscodeacademy.entity.submission.Submission;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.entity.assignment.Assignment;
 import az.code.lmscodeacademy.entity.course.Course;
@@ -45,4 +46,7 @@ public class Group {
 
     @OneToMany(mappedBy = "group")
     private List<Participation> participations;
+
+    @OneToMany(mappedBy = "group")
+    private List<Submission> submissions;
 }

@@ -10,9 +10,11 @@ import az.code.lmscodeacademy.entity.material.Material;
 import az.code.lmscodeacademy.entity.submission.Submission;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.exception.assignment.AssignmentNotFoundException;
+import az.code.lmscodeacademy.exception.group.GroupNotFoundException;
 import az.code.lmscodeacademy.exception.handler.ErrorCodes;
 import az.code.lmscodeacademy.exception.users.UserNotFoundException;
 import az.code.lmscodeacademy.repository.assignment.AssignmentRepository;
+import az.code.lmscodeacademy.repository.group.GroupRepository;
 import az.code.lmscodeacademy.repository.submission.SubmissionRepository;
 import az.code.lmscodeacademy.repository.user.UserRepository;
 import com.amazonaws.services.s3.AmazonS3;
@@ -42,22 +44,27 @@ public class SubmissionService {
     private final AmazonS3 s3Client;
     private final SubmissionRepository submissionRepository;
     private final AssignmentRepository assignmentRepository;
+    private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
 
-    public SubmissionResponse submitAssignmentWithFile(SubmissionRequest request, Long assignmentId, Long userId, MultipartFile file) throws IOException {
+    public SubmissionResponse submitAssignmentWithFile(SubmissionRequest request, Long assignmentId, Long userId, MultipartFile file, Long groupId) throws IOException {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new AssignmentNotFoundException(ErrorCodes.ASSIGNMENT_NOT_FOUND));
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(ErrorCodes.USER_NOT_FOUND));
 
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException(ErrorCodes.GROUP_NOT_FOUND));
+
         validateFileAndLink(request, file);
 
         Submission submission = new Submission();
         submission.setAssignment(assignment);
         submission.setUser(user);
+        submission.setGroup(group);
         if (request.getLink() != null && !request.getLink().isEmpty()) {
             submission.setLink(request.getLink());
         } else {
@@ -68,12 +75,15 @@ public class SubmissionService {
         return modelMapper.map(submissionRepository.save(submission), SubmissionResponse.class);
     }
 
-    public SubmissionResponse submitAssignmentWithoutFile(Long assignmentId, Long userId, SubmissionRequest request) {
+    public SubmissionResponse submitAssignmentWithoutFile(Long assignmentId, Long userId, SubmissionRequest request, Long groupId) {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new AssignmentNotFoundException(ErrorCodes.ASSIGNMENT_NOT_FOUND));
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(ErrorCodes.USER_NOT_FOUND));
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException(ErrorCodes.GROUP_NOT_FOUND));
 
         if (request.getLink() == null || request.getLink().isEmpty()) {
             throw new IllegalArgumentException("Link must be provided.");
@@ -82,10 +92,12 @@ public class SubmissionService {
         Submission submission = new Submission();
         submission.setAssignment(assignment);
         submission.setUser(user);
+        submission.setGroup(group); // Set the group for the submission
         submission.setLink(request.getLink());
 
         return modelMapper.map(submissionRepository.save(submission), SubmissionResponse.class);
     }
+
 
     private void validateFileAndLink(SubmissionRequest request, MultipartFile file) {
         if (request.getLink() == null || request.getLink().isEmpty()) {
@@ -122,14 +134,18 @@ public class SubmissionService {
         return convertedFile;
     }
 
-    public List<SubmissionResponse> getAllSubmissionsByAssignmentId(Long assignmentId) {
+    public List<SubmissionResponse> getAllSubmissionsByAssignmentIdAndGroupId(Long assignmentId, Long groupId) {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new AssignmentNotFoundException(ErrorCodes.ASSIGNMENT_NOT_FOUND));
 
-        List<Submission> submissions = submissionRepository.findByAssignment(assignment);
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException(ErrorCodes.GROUP_NOT_FOUND));
+
+        List<Submission> submissions = submissionRepository.findByAssignmentAndGroup(assignment, group);
 
         return submissions.stream()
                 .map(submission -> modelMapper.map(submission, SubmissionResponse.class))
                 .collect(Collectors.toList());
     }
+
 }
