@@ -51,8 +51,15 @@ public class SubmissionController {
 
 
     @GetMapping("/assignment/{assignmentId}/groups/{groupId}")
-    public ResponseEntity<List<SubmissionResponse>> getAllSubmissionsByAssignmentId(@PathVariable Long assignmentId,
-                                                                                    @PathVariable Long groupId) {
+    public ResponseEntity<List<SubmissionResponse>> getAllSubmissionsByAssignmentIdAndGroupId(@PathVariable Long assignmentId,
+                                                                                              @PathVariable Long groupId) {
         return new ResponseEntity<>(submissionService.getAllSubmissionsByAssignmentIdAndGroupId(assignmentId, groupId), HttpStatus.OK);
+    }
+
+    @GetMapping("/assignment/{assignmentId}/groups/{groupId}/users/{userId}")
+    public ResponseEntity<List<SubmissionResponse>> getAllSubmissionsByAssignmentIdGroupIdUserId(@PathVariable Long assignmentId,
+                                                                                                 @PathVariable Long groupId,
+                                                                                                 @PathVariable Long userId) {
+        return new ResponseEntity<>(submissionService.getAllSubmissionsByAssignmentIdGroupIdAndUserId(assignmentId, groupId, userId), HttpStatus.OK);
     }
 }

@@ -148,4 +148,22 @@ public class SubmissionService {
                 .collect(Collectors.toList());
     }
 
+    public List<SubmissionResponse> getAllSubmissionsByAssignmentIdGroupIdAndUserId(Long assignmentId, Long groupId, Long userId) {
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new AssignmentNotFoundException(ErrorCodes.ASSIGNMENT_NOT_FOUND));
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException(ErrorCodes.GROUP_NOT_FOUND));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ErrorCodes.USER_NOT_FOUND));
+
+        List<Submission> submissions = submissionRepository.findByAssignmentAndGroupAndUser(assignment, group, user);
+
+        return submissions.stream()
+                .map(submission -> modelMapper.map(submission, SubmissionResponse.class))
+                .collect(Collectors.toList());
+    }
+
+
 }
