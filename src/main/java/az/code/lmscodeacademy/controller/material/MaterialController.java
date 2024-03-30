@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/materials")
 @RequiredArgsConstructor
+@CrossOrigin
 public class MaterialController {
 
     private final MaterialService materialService;

@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/submissions")
 @RequiredArgsConstructor
+@CrossOrigin
 public class SubmissionController {
 
     private final SubmissionService submissionService;

@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/participation")
 @RequiredArgsConstructor
+@CrossOrigin
 public class ParticipationController {
 
     private final ParticipationService participationService;
