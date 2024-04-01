@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.dto.response.submission;
 
+import az.code.lmscodeacademy.dto.response.assignment.AssignmentResponse;
 import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import lombok.Data;
 
@@ -12,7 +13,7 @@ public class SubmissionResponse {
 
     private UserResponse user;
 //
-//    private AssignmentResponse assignment;
+    private AssignmentResponse assignment;
 //
 //    private GradeResponse grade;
 }
