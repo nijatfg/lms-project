@@ -1,14 +1,17 @@
 package az.code.lmscodeacademy.service.user;
 
 import az.code.lmscodeacademy.dto.request.user.UserRequest;
+import az.code.lmscodeacademy.dto.response.group.GroupResponse;
 import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import az.code.lmscodeacademy.entity.authority.Authority;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
+import az.code.lmscodeacademy.exception.course.CourseNotFoundException;
 import az.code.lmscodeacademy.exception.email.EmailExistException;
 import az.code.lmscodeacademy.exception.group.GroupNotFoundException;
 import az.code.lmscodeacademy.exception.handler.ErrorCodes;
 import az.code.lmscodeacademy.exception.users.UserNameExistException;
+import az.code.lmscodeacademy.exception.users.UserNotFoundException;
 import az.code.lmscodeacademy.repository.authority.AuthorityRepository;
 import az.code.lmscodeacademy.repository.group.GroupRepository;
 import az.code.lmscodeacademy.repository.user.UserRepository;
@@ -69,6 +72,13 @@ public class UserService {
                 .stream()
                 .map(user -> modelMapper.map(user, UserResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    public UserResponse findById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ErrorCodes.USER_NOT_FOUND));
+
+        return modelMapper.map(user, UserResponse.class);
     }
 
     public List<UserResponse> findByGroupId(Long groupId) {
