@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.dto.response.lesson;
 
+import az.code.lmscodeacademy.entity.group.Group;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -8,4 +9,6 @@ import java.time.LocalDate;
 public class LessonResponse {
     private Long id;
     private LocalDate date;
+    private Group group;
+    private String description;
 }
