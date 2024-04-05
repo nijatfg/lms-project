@@ -3,11 +3,9 @@ package az.code.lmscodeacademy.entity.participation;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.entity.lesson.Lesson;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -30,14 +28,20 @@ public class Participation {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @ToString.Exclude
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
+    @JsonIgnore
+    @ToString.Exclude
     private Lesson lesson;
 
     @ManyToOne
     @JoinColumn(name = "group_id")
+    @JsonIgnore
+    @ToString.Exclude
     private Group group;
 
 
