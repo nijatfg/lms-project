@@ -41,5 +41,7 @@ public class Submission {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
+    @JsonIgnore
+    @ToString.Exclude
     Group group;
 }
