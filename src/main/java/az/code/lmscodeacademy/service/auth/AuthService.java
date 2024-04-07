@@ -7,6 +7,7 @@ import az.code.lmscodeacademy.dto.response.group.GroupResponse;
 import az.code.lmscodeacademy.dto.response.jwt.Response;
 import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import az.code.lmscodeacademy.entity.authority.Authority;
+import az.code.lmscodeacademy.entity.enums.MessageStatus;
 import az.code.lmscodeacademy.entity.enums.UserAuthority;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
@@ -18,6 +19,7 @@ import az.code.lmscodeacademy.exception.users.UserNotFoundException;
 import az.code.lmscodeacademy.repository.authority.AuthorityRepository;
 import az.code.lmscodeacademy.repository.user.UserRepository;
 import az.code.lmscodeacademy.security.jwt.JwtService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -83,6 +85,7 @@ public class AuthService {
 
     }
 
+    @Transactional
     public ResponseEntity<Response> loginUser(LoginRequest loginRequest) {
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(ErrorCodes.USER_NOT_FOUND));
@@ -90,6 +93,8 @@ public class AuthService {
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new InvalidPasswordException(ErrorCodes.INVALID_PASSWORD);
         }
+
+        user.setStatus(MessageStatus.ONLINE); // Update user's status to online
 
         GroupResponse groupResponse = null;
         Group group = user.getGroup();
@@ -103,10 +108,12 @@ public class AuthService {
         return ResponseEntity.ok(Response.builder()
                 .jwt(jwtService.issueToken(user))
                 .id(user.getId())
+                .status(user.getStatus()) // Return the updated status
                 .authorities(user.getAuthorities())
                 .group(groupResponse)
                 .build());
     }
+
 
     public ResponseEntity<UserResponse> changePassword(Long userId, ChangePasswordRequest changePasswordRequest) {
         User user = userRepository.findById(userId)

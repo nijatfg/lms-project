@@ -2,11 +2,15 @@ package az.code.lmscodeacademy.controller.user;
 
 import az.code.lmscodeacademy.dto.request.user.UserRequest;
 import az.code.lmscodeacademy.dto.response.user.UserResponse;
+import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +43,20 @@ public class UserController {
     @GetMapping("/groups/{groupId}")
     public ResponseEntity<List<UserResponse>> findAllByGroupId(@PathVariable Long groupId) {
         return new ResponseEntity<>(userService.findByGroupId(groupId), HttpStatus.OK);
+    }
+
+    @GetMapping("/connectedUsers")
+    public ResponseEntity<List<User>> findConnectedUsers() {
+        return ResponseEntity.ok(userService.findConnectedUsers());
+    }
+
+    @MessageMapping("/user.disconnectUser")
+    @SendTo("/user/public")
+    public User disconnectUser(
+            @Payload User user
+    ) {
+        userService.disconnect(user);
+        return user;
     }
 
 }

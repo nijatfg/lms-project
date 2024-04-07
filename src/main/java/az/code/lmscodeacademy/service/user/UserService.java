@@ -4,6 +4,7 @@ import az.code.lmscodeacademy.dto.request.user.UserRequest;
 import az.code.lmscodeacademy.dto.response.group.GroupResponse;
 import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import az.code.lmscodeacademy.entity.authority.Authority;
+import az.code.lmscodeacademy.entity.enums.MessageStatus;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.exception.course.CourseNotFoundException;
@@ -87,5 +88,18 @@ public class UserService {
         return users.stream()
                 .map(user -> modelMapper.map(user, UserResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    public void disconnect(User user) {
+        var storedUser = userRepository.findByUsername(user.getUsername()).orElse(null);
+        if (storedUser != null) {
+            storedUser.setStatus(MessageStatus.OFFLINE);
+            userRepository.save(storedUser);
+        }
+
+    }
+
+    public List<User> findConnectedUsers() {
+        return userRepository.findAllByStatus(MessageStatus.ONLINE);
     }
 }

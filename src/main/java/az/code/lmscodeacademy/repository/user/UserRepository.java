@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.repository.user;
 
+import az.code.lmscodeacademy.entity.enums.MessageStatus;
 import az.code.lmscodeacademy.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,5 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByConfirmationToken(String confirmationToken);
 
     List<User> findByGroupId(Long groupId);
+
+    List<User> findAllByStatus(MessageStatus status);
+    Optional<User> findByUsername(String username);
 
 }

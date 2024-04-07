@@ -1,6 +1,7 @@
 package az.code.lmscodeacademy.entity.user;
 
 import az.code.lmscodeacademy.entity.authority.Authority;
+import az.code.lmscodeacademy.entity.enums.MessageStatus;
 import az.code.lmscodeacademy.entity.group.Group;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -23,6 +24,7 @@ public class User {
     private String email;
     private String password;
     private String confirmationToken;
+    private MessageStatus status;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
