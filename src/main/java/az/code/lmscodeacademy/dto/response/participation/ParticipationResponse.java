@@ -1,6 +1,7 @@
 package az.code.lmscodeacademy.dto.response.participation;
 
 import az.code.lmscodeacademy.dto.response.lesson.LessonResponse;
+import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import az.code.lmscodeacademy.entity.lesson.Lesson;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class ParticipationResponse {
     private boolean attendance;
     private double percentage;
     private LessonResponse lesson;
+    private UserResponse user;
 }
