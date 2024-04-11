@@ -25,6 +25,7 @@ public class User {
     private String password;
     private String confirmationToken;
     private MessageStatus status;
+    private Boolean passwordChanged;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

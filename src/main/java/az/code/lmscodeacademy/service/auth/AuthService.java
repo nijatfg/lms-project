@@ -125,6 +125,7 @@ public class AuthService {
 
         String encodedNewPassword = passwordEncoder.encode(changePasswordRequest.getNewPassword());
         user.setPassword(encodedNewPassword);
+        user.setPasswordChanged(true); // Set passwordChanged to true
         userRepository.save(user);
 
         UserResponse userResponse = new UserResponse();
@@ -132,6 +133,7 @@ public class AuthService {
         userResponse.setUsername(user.getUsername());
         userResponse.setEmail(user.getEmail());
         userResponse.setAuthorities(user.getAuthorities());
+        userResponse.setPasswordChanged(user.getPasswordChanged());
         userResponse.setGroup(userResponse.getGroup());
 
         return ResponseEntity.ok(userResponse);

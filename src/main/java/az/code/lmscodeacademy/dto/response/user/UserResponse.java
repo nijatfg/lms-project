@@ -15,4 +15,5 @@ public class UserResponse {
     private String email;
     private List<Authority> authorities;
     private GroupResponse group;
+    private boolean passwordChanged;
 }

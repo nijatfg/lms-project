@@ -60,6 +60,7 @@ public class UserService {
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .username(userRequest.getUsername())
                 .email(userRequest.getEmail())
+                .passwordChanged(false)
                 .build();
 
         userRepository.save(user);
