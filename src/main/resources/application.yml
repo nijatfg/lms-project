@@ -20,6 +20,18 @@ spring:
       file-size-threshold: 2MB
       max-file-size: 5MB
       max-request-size: 10MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: quliyeev.n.18@gmail.com
+    password: fjzlpekfwykzapdz
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+
 
 
 cloud:
@@ -39,4 +51,3 @@ application:
   submission:
     bucket:
       name: submissionlmsbucket
-

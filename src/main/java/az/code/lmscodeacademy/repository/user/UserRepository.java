@@ -1,6 +1,8 @@
 package az.code.lmscodeacademy.repository.user;
 
 import az.code.lmscodeacademy.entity.enums.MessageStatus;
+import az.code.lmscodeacademy.entity.enums.UserAuthority;
+import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -21,5 +23,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByStatus(MessageStatus status);
     Optional<User> findByUsername(String username);
+
+    List<User> findByAuthoritiesContains(UserAuthority authority);
+    List<User> findByGroup(Group group);
 
 }
