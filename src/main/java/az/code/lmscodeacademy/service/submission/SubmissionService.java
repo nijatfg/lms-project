@@ -5,6 +5,8 @@ import az.code.lmscodeacademy.dto.request.sumbission.SubmissionRequest;
 import az.code.lmscodeacademy.dto.response.material.MaterialResponse;
 import az.code.lmscodeacademy.dto.response.submission.SubmissionResponse;
 import az.code.lmscodeacademy.entity.assignment.Assignment;
+import az.code.lmscodeacademy.entity.authority.Authority;
+import az.code.lmscodeacademy.entity.enums.UserAuthority;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.material.Material;
 import az.code.lmscodeacademy.entity.submission.Submission;
@@ -17,6 +19,7 @@ import az.code.lmscodeacademy.repository.assignment.AssignmentRepository;
 import az.code.lmscodeacademy.repository.group.GroupRepository;
 import az.code.lmscodeacademy.repository.submission.SubmissionRepository;
 import az.code.lmscodeacademy.repository.user.UserRepository;
+import az.code.lmscodeacademy.service.email.EmailService;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
@@ -47,6 +50,7 @@ public class SubmissionService {
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final EmailService emailService;
 
 
     public SubmissionResponse submitAssignmentWithFile(SubmissionRequest request, Long assignmentId, Long userId, MultipartFile file, Long groupId) throws IOException {
@@ -71,6 +75,7 @@ public class SubmissionService {
             String fileName = saveFileToS3(file);
             submission.setContent(fileName);
         }
+        sendSubmissionNotificationToTeachers(user, assignment, group);
 
         return modelMapper.map(submissionRepository.save(submission), SubmissionResponse.class);
     }
@@ -94,6 +99,8 @@ public class SubmissionService {
         submission.setUser(user);
         submission.setGroup(group); // Set the group for the submission
         submission.setLink(request.getLink());
+
+        sendSubmissionNotificationToTeachers(user, assignment, group);
 
         return modelMapper.map(submissionRepository.save(submission), SubmissionResponse.class);
     }
@@ -165,5 +172,35 @@ public class SubmissionService {
                 .collect(Collectors.toList());
     }
 
+    public void sendSubmissionNotificationToTeachers(User student, Assignment assignment, Group group) {
+        if (group != null) {
+            String subject = "New Submission Received";
+            String content = "A new submission has been received from student " + student.getUsername() +
+                    " for assignment: " + assignment.getTitle() + ".\n\nPlease review it.";
+            List<User> teachers = userRepository.findByGroup(group);
 
+            teachers.forEach(teacher -> System.out.println("User: " + teacher.getUsername() + ", Email: " + teacher.getEmail()));
+
+            List<String> teacherEmails = teachers.stream()
+                    .filter(user -> user.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("TEACHER")))
+                    .map(User::getEmail)
+                    .filter(email -> email != null && !email.isEmpty()) // Filter out null or empty emails
+                    .collect(Collectors.toList());
+
+            System.out.println("Teacher Emails:");
+            teacherEmails.forEach(System.out::println);
+
+
+            if (!teacherEmails.isEmpty()) {
+                emailService.sendEmail(subject, content, teacherEmails);
+                System.out.println("Email sent successfully.");
+            } else {
+                System.out.println("No valid teacher emails found.");
+            }
+        } else {
+            System.out.println("No group found for the assignment.");
+        }
+
+
+    }
 }

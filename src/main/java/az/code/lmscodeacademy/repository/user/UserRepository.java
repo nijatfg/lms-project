@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.repository.user;
 
+import az.code.lmscodeacademy.entity.authority.Authority;
 import az.code.lmscodeacademy.entity.enums.MessageStatus;
 import az.code.lmscodeacademy.entity.enums.UserAuthority;
 import az.code.lmscodeacademy.entity.group.Group;
@@ -26,5 +27,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByAuthoritiesContains(UserAuthority authority);
     List<User> findByGroup(Group group);
+
+    List<User> findByGroupAndAuthorities(Group group, List<UserAuthority> authorities);
+
 
 }
