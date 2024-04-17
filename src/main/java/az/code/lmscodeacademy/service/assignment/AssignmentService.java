@@ -43,9 +43,10 @@ public class AssignmentService {
     }
 
     public void sendEmailToGroupMembers(Assignment assignment) {
-        String subject = "New Assignment Created";
-        String content = "Dear Students,\n\nA new assignment has been created for your group.\n\nAssignment Details:\nTitle: "
-                + assignment.getTitle() + "\nDescription: " + assignment.getDescription();
+        String subject = "New assignment: " + assignment.getTitle();
+        String content = "\n\nA new assignment has been created for your group.\n\nAssignment Details:\nDescription: "
+                + assignment.getDescription();
+
 
         // Log assignment details for debugging
         System.out.println("Assignment Details:");
@@ -82,7 +83,6 @@ public class AssignmentService {
             System.out.println("No group found for the assignment.");
         }
     }
-
 
 
     public List<AssignmentResponse> findAll() {

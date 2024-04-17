@@ -62,6 +62,8 @@ public class AuthService {
 
         User user = User.builder()
                 .authorities(List.of(userAuthority))
+                .firstName(signUpRequest.getFirstName())
+                .lastName(signUpRequest.getLastName())
                 .password(signUpRequest.getPassword())
                 .username(signUpRequest.getUsername())
                 .email(signUpRequest.getEmail())

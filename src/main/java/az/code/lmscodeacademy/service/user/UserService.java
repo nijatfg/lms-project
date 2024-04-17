@@ -57,6 +57,8 @@ public class UserService {
         User user = User.builder()
                 .authorities(List.of(userAuthority))
                 .group(group)
+                .firstName(userRequest.getFirstName())
+                .lastName(userRequest.getLastName())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .username(userRequest.getUsername())
                 .email(userRequest.getEmail())
