@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.*;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,11 @@ public class AssignmentController {
     @GetMapping
     public ResponseEntity<List<AssignmentResponse>> findAll() {
         return new ResponseEntity<>(assignmentService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{assignmentId}")
+    public ResponseEntity<AssignmentResponse> findById(@PathVariable Long assignmentId) {
+        return new ResponseEntity<>(assignmentService.findById(assignmentId), HttpStatus.OK);
     }
 
 

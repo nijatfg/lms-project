@@ -2,10 +2,13 @@ package az.code.lmscodeacademy.service.assignment;
 
 import az.code.lmscodeacademy.dto.request.assignment.AssignmentRequest;
 import az.code.lmscodeacademy.dto.response.assignment.AssignmentResponse;
+import az.code.lmscodeacademy.dto.response.group.GroupResponse;
 import az.code.lmscodeacademy.entity.assignment.Assignment;
 import az.code.lmscodeacademy.entity.enums.UserAuthority;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
+import az.code.lmscodeacademy.exception.assignment.AssignmentNotFoundException;
+import az.code.lmscodeacademy.exception.course.CourseNotFoundException;
 import az.code.lmscodeacademy.exception.handler.ErrorCodes;
 import az.code.lmscodeacademy.exception.group.GroupNotFoundException;
 import az.code.lmscodeacademy.repository.assignment.AssignmentRepository;
@@ -100,5 +103,13 @@ public class AssignmentService {
                 .map(assignment -> modelMapper.map(assignment, AssignmentResponse.class))
                 .collect(Collectors.toList());
     }
+
+    public AssignmentResponse findById(Long assignmentId) {
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new AssignmentNotFoundException(ErrorCodes.ASSIGNMENT_NOT_FOUND));
+
+        return modelMapper.map(assignment, AssignmentResponse.class);
+    }
+
 
 }
