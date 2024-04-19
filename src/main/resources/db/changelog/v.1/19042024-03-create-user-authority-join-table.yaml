@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 19042024-03
+      author: NicatQuliyev
+      changes:
+        - createTable:
+            tableName: user_authorities
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_user_authority_user
+                    references:
+                      tableName: users
+                      columnNames:
+                        - id
+              - column:
+                  name: authority_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_user_authority_authority
+                    references:
+                      tableName: authority
+                      columnNames:
+                        - id

@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 19042024-05
+      author: NicatQuliyev
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: first_name
+                  value: Nicat
+              - column:
+                  name: last_name
+                  value: Quliyev
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: email
+                  value: quliyevv.nicat2003@gmail.com
+              - column:
+                  name: password
+                  value: $2y$10$ydXI6h4Q2eihRw65UEKZdOeH5Udm7lIEcrn0YD39uqJFACEZBmO4a
+              - column:
+                  name: confirmation_token
+                  value: null
+              - column:
+                  name: password_changed
+                  value: true
+              - column:
+                  name: group_id
+                  value: null
+        - insert:
+            tableName: user_authorities
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: authority_id
+                  value: 1

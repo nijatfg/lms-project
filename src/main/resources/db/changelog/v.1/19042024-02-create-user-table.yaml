@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: 19042024-02
+      author: NicatQuliyev
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+              - column:
+                  name: username
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: confirmation_token
+                  type: VARCHAR(255)
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  name: password_changed
+                  type: BOOLEAN
+              - column:
+                  name: group_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_user_group
+                    references:
+                      tableName: group
+                      columnNames:
+                        - id
+

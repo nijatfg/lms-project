@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 19042024-01
+      author: NicatQuliyev
+      changes:
+        - createTable:
+            tableName: authority
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: authority
+                  type: VARCHAR(255)  # Use VARCHAR instead of ENUM
+                  constraints:
+                    nullable: false
