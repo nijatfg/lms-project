@@ -5,6 +5,7 @@ import az.code.lmscodeacademy.dto.response.assignment.AssignmentResponse;
 import az.code.lmscodeacademy.dto.response.participation.ParticipationResponse;
 import az.code.lmscodeacademy.entity.assignment.Assignment;
 import az.code.lmscodeacademy.entity.authority.Authority;
+import az.code.lmscodeacademy.entity.enums.Attendance;
 import az.code.lmscodeacademy.entity.enums.UserAuthority;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.lesson.Lesson;
@@ -92,19 +93,36 @@ public class ParticipationService {
                 return 0.0;
             }
 
-            long attendedLessons = participationRecords.stream().filter(ParticipationResponse::isAttendance).count();
+            long attendedLessons = participationRecords.stream()
+                    .filter(record -> record.getAttendance() == Attendance.ATTEND)
+                    .count();
             long totalLessons = participationRecords.size();
 
-            return (double) attendedLessons / totalLessons * 100.0;
+            double participationPercentage = (double) attendedLessons / totalLessons * 100.0;
+            return formatPercentage(participationPercentage);
         } else {
             double attendedPercentage = participationRecords.stream()
-                    .mapToDouble(record -> record.isAttendance() ? 1.0 : 0.0)
+                    .mapToDouble(record -> {
+                        if (record.getAttendance() == Attendance.ATTEND) {
+                            return 1.0;
+                        } else if (record.getAttendance() == Attendance.LATE) {
+                            return 0.5; // Change to appropriate percentage for late attendance
+                        } else {
+                            return 0.0; // For absent and allowed, no contribution to percentage
+                        }
+                    })
                     .average()
                     .orElse(0.0);
 
-            return attendedPercentage * 100.0;
+            double participationPercentage = attendedPercentage * 100.0;
+            return formatPercentage(participationPercentage);
         }
     }
+
+    private double formatPercentage(double percentage) {
+        return Double.parseDouble(String.format("%.1f", percentage));
+    }
+
 
     public List<ParticipationResponse> findParticipationRecordsByGroup(Long groupId) {
         List<Participation> participations = participationRepository.findByGroupId(groupId);

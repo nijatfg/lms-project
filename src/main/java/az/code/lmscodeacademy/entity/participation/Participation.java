@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.entity.participation;
 
+import az.code.lmscodeacademy.entity.enums.Attendance;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.entity.lesson.Lesson;
@@ -21,7 +22,8 @@ public class Participation {
     private Long id;
 
     //    private LocalDate lessonDate;
-    private boolean attendance;
+    @Enumerated(EnumType.STRING)
+    private Attendance attendance;
 
     @Column(name = "participation_data", columnDefinition = "TEXT")
     private String participationData;

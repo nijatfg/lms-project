@@ -1,5 +1,6 @@
 package az.code.lmscodeacademy.dto.request.participation;
 
+import az.code.lmscodeacademy.entity.enums.Attendance;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -8,5 +9,5 @@ import java.time.LocalDate;
 public class ParticipationRequest {
 
     private LocalDate lessonDate;
-    private boolean attendance;
+    private Attendance attendance;
 }

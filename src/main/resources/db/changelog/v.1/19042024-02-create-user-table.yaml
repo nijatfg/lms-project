@@ -1,5 +1,16 @@
 databaseChangeLog:
   - changeSet:
+      id: 19042024-03
+      author: NicatQuliyev
+      changes:
+        - createSequence:
+            sequenceName: users_seq
+            startValue: 2
+            incrementBy: 1
+
+
+
+  - changeSet:
       id: 19042024-02
       author: NicatQuliyev
       changes:
@@ -9,9 +20,11 @@ databaseChangeLog:
               - column:
                   name: id
                   type: BIGINT
-                  autoIncrement: true
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_users_id
+                    nullable: false
+                    defaultValueComputed: "nextval('users_seq')"
               - column:
                   name: first_name
                   type: VARCHAR(255)

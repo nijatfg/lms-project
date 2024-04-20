@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 19042024-04
+      author: NicatQuliyev
+      changes:
+        - insert:
+            tableName: authority
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: authority
+                  value: STUDENT
