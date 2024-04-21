@@ -174,9 +174,11 @@ public class SubmissionService {
 
     public void sendSubmissionNotificationToTeachers(User student, Assignment assignment, Group group) {
         if (group != null) {
-            String subject = "New Submission Received";
-            String content = "A new submission has been received from student " + student.getUsername() +
-                    " for assignment: " + assignment.getTitle() + ".\n\nPlease review it.";
+            String subject = "📥 New Submission Received";
+            String content = "🌟 Dear Team,\n\nWe have received a new submission from student " + student.getUsername() +
+                    " for the assignment titled: " + assignment.getTitle() + ".\n\n📝 Submission Details:\n\n" +
+                    "Student Name: " + student.getFirstName() + "\n\nPlease review the submission and provide feedback as necessary.\n\nBest regards";
+
             List<User> teachers = userRepository.findByGroup(group);
 
             teachers.forEach(teacher -> System.out.println("User: " + teacher.getUsername() + ", Email: " + teacher.getEmail()));

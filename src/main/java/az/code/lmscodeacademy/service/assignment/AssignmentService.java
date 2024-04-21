@@ -2,13 +2,10 @@ package az.code.lmscodeacademy.service.assignment;
 
 import az.code.lmscodeacademy.dto.request.assignment.AssignmentRequest;
 import az.code.lmscodeacademy.dto.response.assignment.AssignmentResponse;
-import az.code.lmscodeacademy.dto.response.group.GroupResponse;
 import az.code.lmscodeacademy.entity.assignment.Assignment;
-import az.code.lmscodeacademy.entity.enums.UserAuthority;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
 import az.code.lmscodeacademy.exception.assignment.AssignmentNotFoundException;
-import az.code.lmscodeacademy.exception.course.CourseNotFoundException;
 import az.code.lmscodeacademy.exception.handler.ErrorCodes;
 import az.code.lmscodeacademy.exception.group.GroupNotFoundException;
 import az.code.lmscodeacademy.repository.assignment.AssignmentRepository;
@@ -19,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,9 +42,10 @@ public class AssignmentService {
     }
 
     public void sendEmailToGroupMembers(Assignment assignment) {
-        String subject = "New assignment: " + assignment.getTitle();
-        String content = "\n\nA new assignment has been created for your group.\n\nAssignment Details:\nDescription: "
-                + assignment.getDescription();
+        String subject = "📝 New Assignment: " + assignment.getTitle();
+        String content = "\n\n🌟 Dear students,\n\nI'm excited to announce a new assignment for your group! Here are the details:\n\n📚 Assignment Title: "
+                + assignment.getTitle() + "\n\n📝 Description:\n" + assignment.getDescription() + "\n\n🔍 Deadline: "
+                + assignment.getDueDate() + "\n\nPlease review the assignment carefully and submit your work on time. If you have any questions, feel free to reach out.\n\nBest regards";
 
 
         // Log assignment details for debugging
