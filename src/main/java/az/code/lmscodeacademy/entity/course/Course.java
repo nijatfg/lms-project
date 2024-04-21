@@ -24,7 +24,7 @@ public class Course {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
     List<Group> groups = new ArrayList<>();
 
 }

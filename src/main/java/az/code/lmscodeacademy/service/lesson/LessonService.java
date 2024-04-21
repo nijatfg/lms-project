@@ -4,10 +4,8 @@ import az.code.lmscodeacademy.dto.request.group.GroupRequest;
 import az.code.lmscodeacademy.dto.request.lesson.LessonRequest;
 import az.code.lmscodeacademy.dto.response.group.GroupResponse;
 import az.code.lmscodeacademy.dto.response.lesson.LessonResponse;
-import az.code.lmscodeacademy.entity.course.Course;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.lesson.Lesson;
-import az.code.lmscodeacademy.exception.course.CourseNotFoundException;
 import az.code.lmscodeacademy.exception.group.GroupNotFoundException;
 import az.code.lmscodeacademy.exception.handler.ErrorCodes;
 import az.code.lmscodeacademy.exception.lesson.LessonNotFoundException;
@@ -60,5 +58,31 @@ public class LessonService {
                 .collect(Collectors.toList());
     }
 
+    public LessonResponse updateLesson(Long lessonId, LessonRequest lessonRequest) {
+        Lesson existingLesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new LessonNotFoundException(ErrorCodes.LESSON_NOT_FOUND));
+
+        if (lessonRequest.getTitle() != null && !lessonRequest.getTitle().equals(existingLesson.getTitle())) {
+            existingLesson.setTitle(lessonRequest.getTitle());
+        }
+
+        if (lessonRequest.getDescription() != null && !lessonRequest.getDescription().equals(existingLesson.getDescription())) {
+            existingLesson.setDescription(lessonRequest.getDescription());
+        }
+
+        if (lessonRequest.getDate() != null && !lessonRequest.getDate().equals(existingLesson.getDate())) {
+            existingLesson.setDate(lessonRequest.getDate());
+        }
+
+        Lesson updatedLesson = lessonRepository.save(existingLesson);
+        return modelMapper.map(updatedLesson, LessonResponse.class);
+    }
+
+    public void delete(Long lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new LessonNotFoundException(ErrorCodes.LESSON_NOT_FOUND));
+
+        lessonRepository.delete(lesson);
+    }
 
 }

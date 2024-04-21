@@ -6,6 +6,7 @@ import az.code.lmscodeacademy.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class CourseController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CourseResponse> createCourse(@RequestBody CourseRequest courseRequest) {
         CourseResponse createdCourse = courseService.save(courseRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);

@@ -6,6 +6,7 @@ import az.code.lmscodeacademy.service.group.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class GroupController {
     }
 
     @PostMapping("/{courseName}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<GroupResponse> createGroup(
             @RequestBody GroupRequest groupRequest,
             @PathVariable("courseName") String courseName

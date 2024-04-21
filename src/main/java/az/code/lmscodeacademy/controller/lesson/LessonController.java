@@ -8,6 +8,7 @@ import az.code.lmscodeacademy.service.lesson.LessonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class LessonController {
     }
 
     @PostMapping("/{groupName}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<LessonResponse> createLesson(
             @RequestBody LessonRequest lessonRequest,
             @PathVariable("groupName") String groupName
@@ -43,5 +45,20 @@ public class LessonController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<LessonResponse> updateLesson(
+            @PathVariable("id") Long lessonId,
+            @RequestBody LessonRequest lessonRequest
+    ) {
+        LessonResponse lessonResponse = lessonService.updateLesson(lessonId, lessonRequest);
+        return ResponseEntity.ok(lessonResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteLesson(@PathVariable("id") Long lessonId) {
+        lessonService.delete(lessonId);
+        return ResponseEntity.noContent().build();
     }
 }

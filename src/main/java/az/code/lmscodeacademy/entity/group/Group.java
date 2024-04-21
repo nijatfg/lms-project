@@ -27,7 +27,7 @@ public class Group {
 
     private String name;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group",cascade = CascadeType.REMOVE)
     private List<User> user = new ArrayList<>();
 
     @ManyToOne
@@ -35,18 +35,18 @@ public class Group {
     @ToString.Exclude
     Course course;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group",cascade = CascadeType.REMOVE)
     private List<Material> materials = new ArrayList<>();
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group",cascade = CascadeType.REMOVE)
     private List<Assignment> assignments;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group",cascade = CascadeType.REMOVE)
     private List<Lesson> lessons;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group",cascade = CascadeType.REMOVE)
     private List<Participation> participations;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group",cascade = CascadeType.REMOVE)
     private List<Submission> submissions;
 }

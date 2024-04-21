@@ -21,7 +21,7 @@ public class Grade {
     private int score;
     private String feedback;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "submission_id", unique = true)
     private Submission submission;
 }

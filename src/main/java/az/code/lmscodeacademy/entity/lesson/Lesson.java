@@ -29,7 +29,7 @@ public class Lesson {
 //    @ManyToOne
 //    private User user;
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson",cascade = CascadeType.REMOVE)
     private List<Participation> participations = new ArrayList<>();
 
     @ManyToOne

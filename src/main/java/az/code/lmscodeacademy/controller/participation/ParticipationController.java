@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ public class ParticipationController {
     private final ParticipationService participationService;
 
     @PostMapping("/markAttendance/{lessonId}/{userId}/{groupId}")
+    @PreAuthorize("hasAuthority('TEACHER')")
     public ResponseEntity<ParticipationResponse> markAttendance(@RequestBody ParticipationRequest request,
                                                                 @PathVariable Long lessonId,
                                                                 @PathVariable Long userId,

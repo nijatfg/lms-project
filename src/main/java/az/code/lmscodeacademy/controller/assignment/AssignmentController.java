@@ -6,6 +6,7 @@ import az.code.lmscodeacademy.service.assignment.AssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.*;
@@ -20,6 +21,7 @@ public class AssignmentController {
     private final AssignmentService assignmentService;
 
     @PostMapping("/groups/{groupId}")
+    @PreAuthorize("hasAuthority('TEACHER')")
     public ResponseEntity<AssignmentResponse> createAssignment(
             @RequestBody AssignmentRequest request,
             @PathVariable("groupId") Long groupId) {

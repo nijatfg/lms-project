@@ -101,6 +101,40 @@ public class UserService {
         return modelMapper.map(user, UserResponse.class);
     }
 
+
+    public UserResponse updateUser(Long userId, UserRequest userRequest, String groupName) {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ErrorCodes.USER_NOT_FOUND));
+
+        // Update user details
+        existingUser.setFirstName(userRequest.getFirstName());
+        existingUser.setLastName(userRequest.getLastName());
+        existingUser.setEmail(userRequest.getEmail());
+        existingUser.setUsername(userRequest.getUsername());
+
+        // Check if password is provided and update if not empty
+        if (userRequest.getPassword() != null && !userRequest.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        }
+
+        // Update user group if provided
+        if (groupName != null && !groupName.isEmpty()) {
+            Group group = groupRepository.findByName(groupName)
+                    .orElseThrow(() -> new GroupNotFoundException(ErrorCodes.GROUP_NOT_FOUND));
+            existingUser.setGroup(group);
+        }
+
+        userRepository.save(existingUser);
+
+        return modelMapper.map(existingUser, UserResponse.class);
+    }
+
+
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
     public void disconnect(User user) {
         var storedUser = userRepository.findByUsername(user.getUsername()).orElse(null);
         if (storedUser != null) {

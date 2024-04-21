@@ -6,6 +6,7 @@ import az.code.lmscodeacademy.service.grade.GradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class GradeController {
     private final GradeService gradeService;
 
     @PostMapping("/submissions/{submissionId}")
+    @PreAuthorize("hasAuthority('TEACHER')")
     public ResponseEntity<GradeResponse> markGrade(@PathVariable Long submissionId, @RequestBody GradeRequest request) {
         return new ResponseEntity<>(gradeService.gradeSubmission(submissionId, request), HttpStatus.CREATED);
     }

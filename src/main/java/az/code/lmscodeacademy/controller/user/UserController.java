@@ -50,6 +50,21 @@ public class UserController {
         return new ResponseEntity<>(userService.findByGroupId(groupId), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserResponse> updateUserById(@PathVariable Long userId,
+                                                       @RequestBody UserRequest userRequest,
+                                                       @RequestParam(name = "groupName", required = false) String groupName) {
+        UserResponse updatedUser = userService.updateUser(userId, userRequest, groupName);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+
     @GetMapping("/connectedUsers")
     public ResponseEntity<List<User>> findConnectedUsers() {
         return ResponseEntity.ok(userService.findConnectedUsers());

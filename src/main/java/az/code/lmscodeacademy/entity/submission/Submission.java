@@ -34,7 +34,7 @@ public class Submission {
     @ToString.Exclude
     private Assignment assignment;
 
-    @OneToOne(mappedBy = "submission")
+    @OneToOne(mappedBy = "submission",cascade = CascadeType.REMOVE)
     @JsonIgnore
     @ToString.Exclude
     private Grade grade;
