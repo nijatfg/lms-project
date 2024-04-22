@@ -129,8 +129,6 @@ public class UserService {
         return modelMapper.map(existingUser, UserResponse.class);
     }
 
-
-
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }

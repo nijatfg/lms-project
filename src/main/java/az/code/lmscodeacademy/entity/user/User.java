@@ -30,7 +30,6 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private String confirmationToken;
     @Enumerated(EnumType.STRING)
     private MessageStatus status;
     private Boolean passwordChanged;

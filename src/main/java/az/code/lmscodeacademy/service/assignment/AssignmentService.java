@@ -45,7 +45,10 @@ public class AssignmentService {
         String subject = "📝 New Assignment: " + assignment.getTitle();
         String content = "\n\n🌟 Dear students,\n\nI'm excited to announce a new assignment for your group! Here are the details:\n\n📚 Assignment Title: "
                 + assignment.getTitle() + "\n\n📝 Description:\n" + assignment.getDescription() + "\n\n🔍 Deadline: "
-                + assignment.getDueDate() + "\n\nPlease review the assignment carefully and submit your work on time. If you have any questions, feel free to reach out.\n\nBest regards";
+                + assignment.getDueDate() + "\n\nPlease review the assignment carefully and submit your work on time. If you have any questions, feel free to reach out.\n\nBest regards" +
+                "\n\n<a href=\"http://localhost:3000/student/assignments\">Click here</a> to view the assignment in the student portal.";
+
+
 
 
         // Log assignment details for debugging

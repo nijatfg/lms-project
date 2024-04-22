@@ -37,9 +37,4 @@ public class AuthController {
                                                        @RequestBody ChangePasswordRequest request) {
         return authService.changePassword(userId, request);
     }
-
-    @GetMapping("/confirmation")
-    public ResponseEntity<?> confirmation(@RequestParam("confirmationToken") String confirmationToken) {
-        return authService.confirmation(confirmationToken);
-    }
 }

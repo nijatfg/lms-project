@@ -71,9 +71,6 @@ public class AuthService {
 
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
-        String confirmationToken = getConfirmationToken();
-
-        user.setConfirmationToken(confirmationToken);
         userRepository.save(user);
 
 //        emailService.sendMail(signUpRequest.getEmail(),
@@ -141,21 +138,4 @@ public class AuthService {
         return ResponseEntity.ok(userResponse);
     }
 
-
-    public ResponseEntity<?> confirmation(String confirmationToken) {
-        Optional<User> user = userRepository.findByConfirmationToken(confirmationToken);
-        if (user.isPresent()) {
-            User user1 = user.get();
-            userRepository.save(user1);
-
-            return ResponseEntity.ok("User confirmed successfully");
-        } else {
-            return ResponseEntity.ok("Confirmation token is invalid");
-        }
-    }
-
-    private String getConfirmationToken() {
-        UUID gfg = UUID.randomUUID();
-        return gfg.toString();
-    }
 }

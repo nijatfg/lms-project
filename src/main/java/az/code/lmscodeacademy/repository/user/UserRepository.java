@@ -18,17 +18,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-    Optional<User> findByConfirmationToken(String confirmationToken);
 
     List<User> findByGroupId(Long groupId);
 
     List<User> findAllByStatus(MessageStatus status);
     Optional<User> findByUsername(String username);
 
-    List<User> findByAuthoritiesContains(UserAuthority authority);
     List<User> findByGroup(Group group);
 
-    List<User> findByGroupAndAuthorities(Group group, List<UserAuthority> authorities);
 
 
 }
