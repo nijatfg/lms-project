@@ -1,0 +1,12 @@
+FROM maven:3.8.4-openjdk-17 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean install
+
+
+FROM openjdk:17-alpine
+WORKDIR /app
+COPY --from=build /app/target/lms-code-academy-0.0.1-SNAPSHOT.jar ./lms-project.jar
+EXPOSE 8080
+CMD ["java", "-jar", "lms-project.jar"]
