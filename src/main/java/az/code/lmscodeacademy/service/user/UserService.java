@@ -1,13 +1,11 @@
 package az.code.lmscodeacademy.service.user;
 
 import az.code.lmscodeacademy.dto.request.user.UserRequest;
-import az.code.lmscodeacademy.dto.response.group.GroupResponse;
 import az.code.lmscodeacademy.dto.response.user.UserResponse;
 import az.code.lmscodeacademy.entity.authority.Authority;
 import az.code.lmscodeacademy.entity.enums.MessageStatus;
 import az.code.lmscodeacademy.entity.group.Group;
 import az.code.lmscodeacademy.entity.user.User;
-import az.code.lmscodeacademy.exception.course.CourseNotFoundException;
 import az.code.lmscodeacademy.exception.email.EmailExistException;
 import az.code.lmscodeacademy.exception.group.GroupNotFoundException;
 import az.code.lmscodeacademy.exception.handler.ErrorCodes;
