@@ -2,8 +2,8 @@ spring:
   application:
     name: learning-management-system
   datasource:
-    password: password
-    url: jdbc:postgresql://localhost:5434/learning-management-system
+    password: wawzZghkuJIxiBjDpboCHrjgJDUVvqKa
+    url: jdbc:postgresql://roundhouse.proxy.rlwy.net:23071/railway
     username: postgres
   jpa:
     hibernate:
